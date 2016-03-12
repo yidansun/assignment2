@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Yidan Sun" />
+  <title>Assignment 2 Numerical Simulation</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Assignment 2<br />
+Numerical Simulation</h1>
+<h2 class="author">Yidan Sun</h2>
+</div>
+<h1 id="part-1" class="unnumbered">part 1</h1>
+<p><img src="figure1" alt="image" /></p>
+<h2 id="section" class="unnumbered">1</h2>
+<p>The authors address several research questions, also because they are discussing two separate experiments. I have identified the following questions, listed from most general to most specific:</p>
+<ol>
+<li><p>Can providing inputs that address specific unmet needs in schools improve schooling quality?</p></li>
+<li><p>What are the effects of a remedial education program, in which a ’balsakhi’ works on basic skills with the children, on schooling quality?</p></li>
+<li><p>What are the effects of a computer-assisted learning program, where children in grade four are offered two hours of shared computer time per week, on schooling quality?</p></li>
+<li><p>How cost-effective are both of the programs?</p></li>
+</ol>
+<p>The authors conduct two experiments that provide additional ’inputs’ that specifically target the weaker students. Clearly, it is important to know how cost-effective these programs are, especially considering how much cheaper they are as compared to hiring additional regular teachers. Since the hypothesis is that targeting weaker students might be beneficial, it seems natural to test whether weaker students indeed gain more.</p>
+<h2 id="section-1" class="unnumbered">2</h2>
+<p>Now, for each individual student (analysis at the level of te school is also possible) there are two potential outcomes:</p>
+<ul>
+<li><p><span class="math inline">\(y_i^1\)</span> is the outcome when treated</p></li>
+<li><p><span class="math inline">\(y_i^0\)</span> is the outcome when non treated</p></li>
+</ul>
+<p>Where <span class="math inline">\(y_i\)</span> is a measure of learning outcomes, i.e. test score or improvement in test score over the year. Note the counterfactual nature of potential outcomes. Ideally, we would want to compare the learning outcome of a student if he received the treatment with his learning outcome had he not received the treatment. However, since we cannot turn back time this is impossible.</p>
+<p>More practically speaking, they use what they call a value added specification: <span class="math display">\[\begin{aligned}
+y_{igjPOST}-y_{igjPRE}=\lambda +\delta D_{jg}+\theta y_{igjPRE}+\epsilon{igjPOST} \end{aligned}\]</span> That is, change in the testscore of child <span class="math inline">\(i\)</span> in grade <span class="math inline">\(g\)</span> and school <span class="math inline">\(j\)</span> is regressed on treatment assignment <span class="math inline">\(D_{jg}\)</span> and the respective pretest score. This specification asks whether children that received the treatment increased their testscore more, relative to their pretest score, than children that did not receive the treatment.</p>
+<p>Secondly, they use a difference-in-differences specification(<strong>only reported in working paper version</strong>): <span class="math display">\[\begin{aligned}
+y_{igjk}=\lambda +\delta D_{jg}+\theta POST_{k}+\gamma(D_{ig}*POST_k)+\epsilon{igjk} \end{aligned}\]</span></p>
+<p>Where <span class="math inline">\(k\)</span> indexes the individual tests (pre and post potential treatment). Here the interaction term with parameter <span class="math inline">\(\gamma\)</span> is the treatment effect; it is how much more test scores increased for individuals that received the treatment compared to individuals that did not receive the treatment.</p>
+<h2 id="section-2" class="unnumbered">4</h2>
+<p>Estimating equations (1) and (2) generates estimates of the average impact of the program on all children whose school-grade received a balsakhi. However, there might also be an indirect effect on children that did not get help from the balsakhi, as they will share the classroom with fewer students. This indirect channel could potentially work in two ways:</p>
+<ul>
+<li><p>A class size effect</p></li>
+<li><p>A peer quality effect</p></li>
+</ul>
+<p>Since teachers were not prepared to assign the children to potential assignment a priori, without knowing whether or not they were going to get a balsakhi, there might be some selection effect issues. To address this the authors do the following:</p>
+<p>The authors start by predicting assignment probability in the treatment schools as a flexible function of the pretest score. <span class="math display">\[\begin{aligned}
+P_{ijg}=(\pi_0 +\pi_1 y_{ijgPRE}+\pi_2 y_{ijgPRE}^2 +\pi_3 y_{ijgPRE}^3+\pi_4 y_{ijgPRE}^4)*D_{jg}+\omega_{ijg}\end{aligned}\]</span> Let <span class="math inline">\(M_{ij}\)</span> be the vector <span class="math inline">\([1,y_{ijgPRE},y_{ijgPRE}^2,y_{ijgPRE}^3,y_{ijgPRE}^4]\)</span>. Where <span class="math inline">\(P_{ijg}\)</span> is a dummy indicating whether a child worked with the balsakhi.</p>
+<p>Consider the following structural equation: <span class="math display">\[\begin{aligned}
+y_{ijgPOST}-y_{ijgPRE}=\gamma D_{jg} +\tau P_{ijg} +M_{ij} \alpha +\epsilon_{ijg}\end{aligned}\]</span></p>
+<p>Here <span class="math inline">\(\gamma\)</span> is the indirect effect, while <span class="math inline">\(\tau\)</span> is the direct effect of having attended the remedial classes on top of being in a school that was assigned to the treatment group.</p>
+<p>The authors use the predicted assignment probability as an instrument for actual assignment probability and then run an IV regression to estimate the parameters of equation (4).</p>
+<p>The authors conclude that the effect of the program is concentrated on children that were indeed assigned to the balsakhi; they cannot reject the hypothesis that being in a balsakhi school had no effect for children who were themselves not sent to a balsakhi.</p>
+<h1 id="part-2" class="unnumbered">part 2</h1>
+<h2 id="a" class="unnumbered">a</h2>
+<p>The unconfoundedness assumption is also called the <em>conditional independence assumption</em>. Basically, it means that selection into treatment (treatment assignment) is based on observable variables only. Formally: <span class="math display">\[\begin{aligned}
+    y_i^0,y_i^1\bot d_i |X_i
+    \end{aligned}\]</span> That is, potential outcomes should be independent of the treatment status, conditional on on observed covariates <span class="math inline">\(X_i\)</span>. Put differently, it means that the ones that get assigned treatment are a random sample of the population conditional on <span class="math inline">\(X\)</span>. This implies the following: <span class="math display">\[\begin{aligned}
+    E(y_i^0|d_i=1,X_i)=E(y_i^0|d_i=0,X_i)=E(y_i^0|X_i)\\
+    E(y_i^1|d_i=1,X_i)=E(y_i^1|d_i=0,X_i)=E(y_i^1|X_i)\end{aligned}\]</span></p>
+<p>To use a real world example, consider the STAR experiment discussed in class. There, students were randomly assigned to different class sizes, however the randomization was done within each school. Hence, treatment assignment was random conditional in each subset of the total population, i.e. within each school, but not necessarily across schools.</p>
+<h2 id="b" class="unnumbered">b</h2>
+<p><span class="math display">\[\begin{aligned}
+y_i^0=&amp;\beta+X_i&#39;\gamma+u_i\\
+E(u_i)=&amp;E(y_i^0)-\beta-E(X_i&#39;\gamma)\\
+\nonumber \\
+E(u_i|d_i,X_i)=&amp;E(y_i^0|d_i,X_i)-\beta-X_i&#39;\gamma\\
+=&amp;E(y_i^0|X_i)-\beta-Xi_i&#39;\gamma\\
+=&amp;\beta+X_i&#39;\gamma+E(u_i|X_i)-\beta-X_i&#39;\gamma\\
+=&amp;E(u_i|x_i)=E(u_i)\end{aligned}\]</span></p>
+<p>Where (10) uses the fact that the expectation of <span class="math inline">\(X_i&#39;\)</span> conditional on <span class="math inline">\(X_i,d_i\)</span> is simply <span class="math inline">\(X_i&#39;\)</span>, (11) uses the fact that <span class="math inline">\(y_i^0,y_i^1\bot d_i |X_i\)</span>, (12) uses equation (8) again and (13) uses the fact that <span class="math inline">\(=u_i\bot X_i\)</span>.</p>
+<h2 id="c" class="unnumbered">c</h2>
+<p><span class="math display">\[\begin{aligned}
+\alpha_i=&amp;y_i^1-y_i^0\\
+E(\alpha_i|d_i,X_i)=&amp;E(y_i^1-y_i^0|d_i,X_i)\\
+=&amp;E(y_i^1-y_i^0|X_i)\\
+E(\alpha_i|di,X_i)=&amp;E(\alpha_i|X_i)\end{aligned}\]</span></p>
+<p>Here (14) simply uses the definition of <span class="math inline">\(\alpha_i\)</span>, (16) uses the unconfoundedness assumption and (17) combines (15) and (16), yielding the result. Hence, if the unconfoundedness assumption holds, no matter if the treatment effect is random or constant, it is uncorrelated to treatment assignment, conditional on the observed covariates <span class="math inline">\(X_i\)</span>.</p>
+<p><span class="math inline">\(\alpha_i\)</span> might for example be the effect of a certain medicine. Perhaps we expect that this medicine might have different effects depending on age. Hence, we could construct several age groups, and then within each age group randomly assign treatment and placebos. <span class="math inline">\(\alpha_i\)</span> might be random because different people might react differently to a medicine, although on average it might have a certain effect. In such a setting, treatment assignment is random conditional on the age group one is in. One could then for example estimate the ATE by running a linear regression.</p>
+</body>
+</html>
