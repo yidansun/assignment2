@@ -1,3 +1,4 @@
 # assignment2
-http://yidansun.github.io/assignment2/mathMathJax.html 
-http://yidansun.github.io/assignment2/plain.html#/
+ latex:  http://yidansun.github.io/assignment2/mathMathJax.html 
+
+presentation: http://yidansun.github.io/assignment2/plain.html#/
